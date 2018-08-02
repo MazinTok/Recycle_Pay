@@ -171,9 +171,14 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue().toString();
-                Log.d(TAG, "Value is: " + value);
-                BottleCountText.setText(value);
+                if (dataSnapshot.exists()) {
+                    String value = dataSnapshot.getValue().toString();
+                    Log.d(TAG, "Value is: " + value);
+                    BottleCountText.setText(value);
+                }
+                else {
+                    WriteTOFB();
+                }
             }
 
             @Override
@@ -201,9 +206,15 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue().toString();
-                Log.d(TAG, "Value is: " + value);
-                WalletText.setText(value);
+                if (dataSnapshot.exists()) {
+                    String value = dataSnapshot.getValue().toString();
+                    Log.d(TAG, "Value is: " + value);
+                    WalletText.setText(value);
+                }
+                else {
+                    WriteTOFB();
+                }
+
             }
 
             @Override
@@ -234,9 +245,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void WriteTOFB()
     {
-        myRef.child("Users").setValue(Build.SERIAL);
-        myRef.child("Users").child(Build.SERIAL).child("Bottles").setValue(2);
-        myRef.child("Users").child(Build.SERIAL).child("Wallet").setValue(2.4);
+        //myRef.child("Users").setValue(Build.SERIAL);
+        myRef.child("Users").child(Build.SERIAL).child("Bottles").setValue(0);
+        myRef.child("Users").child(Build.SERIAL).child("Wallet").setValue(0.0);
         myRef.child("Users").child(Build.SERIAL).child("Name").setValue("Mazin");
 
     }
