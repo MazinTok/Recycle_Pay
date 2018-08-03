@@ -1,3 +1,3 @@
 # Recycle_Pay
 
- INCLODED  in the rebository laraval directory for the website dashbord
+ INCLODED  in the rebository laravalpin directory for the website dashbord
