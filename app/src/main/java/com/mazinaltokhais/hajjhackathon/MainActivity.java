@@ -130,8 +130,27 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
              //   Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+
+
+///------------
+//                String[] tokens = result.split("/");
+//                int val , id ;
+//                id = Integer.parseInt(tokens[1]);
+//                val = Integer.parseInt(tokens[0]);
+//
+//                WriteTOFBBottlesTest(val);// WriteTOFBRecycleBin( id,  val);
+//               // String NumberOfBottles =
+//                readFromFB_Recycle_bins(tokens[1]);
+//                android.os.SystemClock.sleep(5000);
+//                val += Integer.parseInt("3");//NumberOfBottles);
+//                WriteTOFBRecycleBin( id,  val);
+//                for (String t : tokens)
+//                    System.out.println(t);
+
+                //----------
+
                 String Bottles = BottleCountText.getText().toString();
-                int temp = Integer.parseInt(Bottles)+Integer.parseInt(result.toString());
+                int temp = Integer.parseInt(Bottles)+Integer.parseInt(result);
 
                 BottleCountText.setText(valueOf(temp));
                 WriteTOFBBottles(temp);
@@ -164,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     {
 
         // Read from the database
-        Query myTopPostsQuery = myRef.child("Users").child(Build.SERIAL).child("Bottles");//.equalTo(mTree.getmCountryName());
+        Query myTopPostsQuery = myRef.child("Users").child(Build.SERIAL).child("Bottles");
         myTopPostsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
         //myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -187,19 +206,50 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
 
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//             
-//            }
         });
     }
+    public void readFromFB_Recycle_bins(String RecycleBin) {
 
+        DatabaseReference myRef1 = database.getReference();
+    final String[] value = new String[1];
+
+        // Read from the database
+        Integer.valueOf(RecycleBin);
+        Query myTopPostsQuery1 = myRef1.child("RecyclePins").child(RecycleBin);
+        myTopPostsQuery1.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+        //myTopPostsQuery1.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+              //  Log.d(TAG, "Failed to read value.", "A");
+                Log.d(TAG, "Valuessssssssssss is: " + "ss");
+                if (dataSnapshot.exists()) {
+                     value[0] = dataSnapshot.child("bottles").getValue().toString();
+                    Log.d(TAG, "Value is: " + value[0]);
+
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //throw databaseError.toException();
+                Log.d(TAG, "Failed to read value.");
+            }
+        });
+
+}
+    public void WriteTOFBRecycleBin(int id, int val)
+    {
+//Integer.toString(id
+        myRef.child("RecyclePins").child(String.valueOf(id)).child("bottles").setValue(val);
+
+    }
     public void ReadFromFB_Wallet()
     {
 
         // Read from the database
-        Query myTopPostsQuery = myRef.child("Users").child(Build.SERIAL).child("Wallet");//.equalTo(mTree.getmCountryName());
+    Query myTopPostsQuery = myRef.child("Users").child(Build.SERIAL).child("Wallet");
         myTopPostsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             //myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -235,6 +285,12 @@ public class MainActivity extends AppCompatActivity {
     {
 
         myRef.child("Users").child(Build.SERIAL).child("Bottles").setValue(val);
+
+    }
+    public void WriteTOFBBottlesTest(int val)
+    {
+
+        myRef.child("RecyclePins").child("3").child("bottles").setValue(val);
 
     }
     public void WriteTOFBWallet(double val)
